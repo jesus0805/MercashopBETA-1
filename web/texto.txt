@@ -1,0 +1,9 @@
+
+BACKEND----
+
+DB - Contiene la conexión central a MySQL.
+Helper - Funciones para sanitizar inputs y devolver JSON.
+Productos - Endpoint para listar productos, buscar y filtrar.
+Carrito - Endpoint para agregar/quitar productos y ver carrito.
+Pedido - Endpoint para marcar compra como realizada.
+Login - Endpoint para autenticación básica de clientes.
