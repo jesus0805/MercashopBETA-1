@@ -11,7 +11,7 @@ CREATE TABLE TDepartamento (
   nDepartamentoID INT PRIMARY KEY AUTO_INCREMENT,
   cNombre VARCHAR(255),
   cCodigoDane VARCHAR(255)
-) ENGINE=InnoDB; [cite: 8]
+) ENGINE=InnoDB;
 
 CREATE TABLE TMunicipio (
   nMunicipioID INT PRIMARY KEY AUTO_INCREMENT,
@@ -19,7 +19,7 @@ CREATE TABLE TMunicipio (
   cNombre VARCHAR(255),
   cCodigoDane VARCHAR(255),
   FOREIGN KEY (nDepartamentoFK) REFERENCES TDepartamento(nDepartamentoID)
-) ENGINE=InnoDB; [cite: 7, 8]
+) ENGINE=InnoDB;
 
 CREATE TABLE TDireccion (
   nDireccionID INT PRIMARY KEY AUTO_INCREMENT,
@@ -29,18 +29,18 @@ CREATE TABLE TDireccion (
   cCodigoPostal VARCHAR(255),
   nMunicipioFK INT,
   FOREIGN KEY (nMunicipioFK) REFERENCES TMunicipio(nMunicipioID)
-) ENGINE=InnoDB; [cite: 7]
+) ENGINE=InnoDB;
 
 CREATE TABLE TEstadoPedido (
   nEstadoPedidoID INT PRIMARY KEY AUTO_INCREMENT,
   cNombreEstado VARCHAR(255)
-) ENGINE=InnoDB; [cite: 3]
+) ENGINE=InnoDB;
 
 CREATE TABLE TRoles (
   nRolID INT PRIMARY KEY AUTO_INCREMENT,
   cNombre VARCHAR(255),
   cDescripcion VARCHAR(255)
-) ENGINE=InnoDB; [cite: 4]
+) ENGINE=InnoDB;
 
 CREATE TABLE TCategoria (
   nCategoriaID INT PRIMARY KEY AUTO_INCREMENT,
@@ -48,7 +48,7 @@ CREATE TABLE TCategoria (
   nCategoriaPadreFK INT,
   bEstado BOOLEAN,
   FOREIGN KEY (nCategoriaPadreFK) REFERENCES TCategoria(nCategoriaID)
-) ENGINE=InnoDB; [cite: 5]
+) ENGINE=InnoDB;
 
 -- ======================================================
 -- 3. MÓDULO CLIENTE
@@ -64,7 +64,7 @@ CREATE TABLE TUsuarioCliente (
   cTelefono VARCHAR(255),
   nDireccionFK INT,
   FOREIGN KEY (nDireccionFK) REFERENCES TDireccion(nDireccionID)
-) ENGINE=InnoDB; [cite: 1, 2]
+) ENGINE=InnoDB;
 
 CREATE TABLE TDireccionCliente (
   nDireccionClienteID INT PRIMARY KEY AUTO_INCREMENT,
@@ -75,7 +75,7 @@ CREATE TABLE TDireccionCliente (
   cTelefonoRecibidor VARCHAR(255),
   FOREIGN KEY (nClienteFK) REFERENCES TUsuarioCliente(nUsuarioClienteID),
   FOREIGN KEY (nDireccionFK) REFERENCES TDireccion(nDireccionID)
-) ENGINE=InnoDB; [cite: 2]
+) ENGINE=InnoDB;
 
 CREATE TABLE TCarrito (
   nCarritoID INT PRIMARY KEY AUTO_INCREMENT,
@@ -84,7 +84,7 @@ CREATE TABLE TCarrito (
   dFechaUltActualizacion TIMESTAMP,
   dFechaExpiracion TIMESTAMP,
   FOREIGN KEY (nUsuarioClienteFK) REFERENCES TUsuarioCliente(nUsuarioClienteID)
-) ENGINE=InnoDB; [cite: 2]
+) ENGINE=InnoDB;
 
 -- ======================================================
 -- 4. MÓDULO TIENDA
@@ -104,7 +104,7 @@ CREATE TABLE TTiendas (
   nPlanFK INT,
   dFechaVencimientoSuscripcion TIMESTAMP,
   FOREIGN KEY (nDireccionFK) REFERENCES TDireccion(nDireccionID)
-) ENGINE=InnoDB; [cite: 1, 4]
+) ENGINE=InnoDB;
 
 CREATE TABLE TProductos (
   nProductoID INT PRIMARY KEY AUTO_INCREMENT,
@@ -118,7 +118,7 @@ CREATE TABLE TProductos (
   nCantidadStock INT,
   FOREIGN KEY (nTiendaFK) REFERENCES TTiendas(nTiendaID),
   FOREIGN KEY (nCategoriaFK) REFERENCES TCategoria(nCategoriaID)
-) ENGINE=InnoDB; [cite: 5]
+) ENGINE=InnoDB;
 
 CREATE TABLE TTrabajador (
   nTrabajadorID INT PRIMARY KEY AUTO_INCREMENT,
@@ -129,7 +129,7 @@ CREATE TABLE TTrabajador (
   cTelefono VARCHAR(255),
   nRolFK INT,
   FOREIGN KEY (nRolFK) REFERENCES TRoles(nRolID)
-) ENGINE=InnoDB; [cite: 4]
+) ENGINE=InnoDB;
 
 CREATE TABLE TTrabajadorTienda (
   nID INT PRIMARY KEY AUTO_INCREMENT,
@@ -137,7 +137,7 @@ CREATE TABLE TTrabajadorTienda (
   nTrabajadorFK INT,
   FOREIGN KEY (nTiendaFK) REFERENCES TTiendas(nTiendaID),
   FOREIGN KEY (nTrabajadorFK) REFERENCES TTrabajador(nTrabajadorID)
-) ENGINE=InnoDB; [cite: 4]
+) ENGINE=InnoDB;
 
 -- ======================================================
 -- 5. PEDIDOS Y TRANSACCIONES
@@ -157,7 +157,7 @@ CREATE TABLE TPedido (
   FOREIGN KEY (nClienteFK) REFERENCES TUsuarioCliente(nUsuarioClienteID),
   FOREIGN KEY (nDireccionClienteFK) REFERENCES TDireccionCliente(nDireccionClienteID),
   FOREIGN KEY (nEstadoPedidoFK) REFERENCES TEstadoPedido(nEstadoPedidoID)
-) ENGINE=InnoDB; [cite: 2, 3]
+) ENGINE=InnoDB;
 
 CREATE TABLE TDetallePedido (
   nDetallePedidoID INT PRIMARY KEY AUTO_INCREMENT,
@@ -169,7 +169,7 @@ CREATE TABLE TDetallePedido (
   nSubtotal DECIMAL(19,4),
   FOREIGN KEY (nPedidoFK) REFERENCES TPedido(nPedidoID),
   FOREIGN KEY (nProductoFK) REFERENCES TProductos(nProductoID)
-) ENGINE=InnoDB; [cite: 3]
+) ENGINE=InnoDB;
 
 CREATE TABLE TTransaccionPasarela (
   nTransaccionID INT PRIMARY KEY AUTO_INCREMENT,
@@ -187,7 +187,7 @@ CREATE TABLE TTransaccionPasarela (
   dFechaActualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   jRawResponse JSON,
   FOREIGN KEY (nPedidoFK) REFERENCES TPedido(nPedidoID)
-) ENGINE=InnoDB; [cite: 1, 3]
+) ENGINE=InnoDB;
 
 -- ======================================================
 -- 6. MÓDULO ADMIN Y PQRS
@@ -201,7 +201,7 @@ CREATE TABLE TUsuarioAdmin (
   cPassword VARCHAR(255),
   eEstado ENUM('Activo', 'Inactivo', 'Bloqueado'),
   dCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB; [cite: 1, 5, 6]
+) ENGINE=InnoDB;
 
 CREATE TABLE TTiendaAdmin (
   nIdTienda INT PRIMARY KEY AUTO_INCREMENT,
@@ -209,7 +209,7 @@ CREATE TABLE TTiendaAdmin (
   cDireccion VARCHAR(255),
   cTelefono VARCHAR(255),
   eEstado ENUM('Activa', 'Inactiva', 'Suspendida', 'Pendiente')
-) ENGINE=InnoDB; [cite: 1, 6]
+) ENGINE=InnoDB;
 
 CREATE TABLE TPQRS (
   nPQRSID INT PRIMARY KEY AUTO_INCREMENT,
@@ -224,7 +224,7 @@ CREATE TABLE TPQRS (
   nTiendaFK INT,
   FOREIGN KEY (nPedidoFK) REFERENCES TPedido(nPedidoID),
   FOREIGN KEY (nTiendaFK) REFERENCES TTiendaAdmin(nIdTienda)
-) ENGINE=InnoDB; [cite: 1, 6, 7]
+) ENGINE=InnoDB;
 
 CREATE TABLE THiloPQRS (
   nHiloPQRSID INT PRIMARY KEY AUTO_INCREMENT,
@@ -236,6 +236,6 @@ CREATE TABLE THiloPQRS (
   bEsMensajeInterno BOOLEAN,
   cEvidencia VARCHAR(255),
   FOREIGN KEY (nPQRSFK) REFERENCES TPQRS(nPQRSID)
-) ENGINE=InnoDB; [cite: 1, 7]
+) ENGINE=InnoDB;
 
 SET FOREIGN_KEY_CHECKS = 1;
